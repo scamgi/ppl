@@ -253,3 +253,117 @@ This module teaches you how to extend Racket's syntax itself. Macros operate on 
 **Exercise 40: Basic `For` Loop Macro**
 *   **Description:** Implement the iteration part of the `For` loop from PPL2023.02.15. Your macro `(For i from start to end do body ...)` should expand into a recursive loop (e.g., using a named `let`). This version does not need to handle `break`.
 *   **Learning Goal:** Master the fundamental macro pattern of converting a user-friendly loop syntax into the underlying recursive reality of Scheme. This provides the scaffold for adding `break` later using continuations.
+
+### **Part 3: Advanced Patterns and Concept Fusion (Exercises 41-60)**
+
+Now that you have the foundational tools, this part of the course will challenge you to use them with greater sophistication. We will focus on efficient recursion, modeling complex data structures from other paradigms (a very common exam theme), writing more powerful macros, and solving problems that require fusing state, continuations, and macros together.
+
+---
+
+#### **Module 9: Efficient Recursion and Tail Calls**
+
+While standard recursion is powerful, professional Scheme code uses tail recursion to avoid stack overflow on large inputs. This module focuses on mastering this optimization.
+
+**Exercise 41: Tail-Recursive Factorial**
+*   **Description:** Rewrite the classic factorial function to be tail-recursive. This requires a helper function that uses an accumulator to pass the intermediate result forward.
+*   **E.g.:** `(tr-factorial 5)` should return `120` without growing the stack for each recursive call.
+*   **Learning Goal:** Master the fundamental accumulator pattern for converting a simple recursion into a tail-recursive one.
+
+**Exercise 42: Implement `my-foldl` (Fold Left)**
+*   **Description:** Implement the `foldl` (or `fold-left`) function. Unlike `foldr`, `foldl` processes elements from left to right and is naturally tail-recursive.
+*   **E.g.:** `(my-foldl (lambda (acc x) (cons x acc)) '() '(1 2 3))` should return `(3 2 1)`.
+*   **Learning Goal:** Understand the difference between `foldl` and `foldr` and see how `foldl`'s structure is inherently iterative and efficient.
+
+**Exercise 43: Palindrome Check**
+*   **Description:** Write a tail-recursive function `is-palindrome?` that checks if a list is the same forwards and backwards.
+*   **E.g.:** `(is-palindrome? '(r a c e c a r))` should return `#t`.
+*   **Learning Goal:** Apply tail recursion to a problem that isn't a simple accumulation, possibly by comparing the list to its reverse or using a more complex two-pointer recursive approach.
+
+**Exercise 44: Range Generator**
+*   **Description:** Write a tail-recursive function `range` that takes a `start` and `end` integer and returns a list of numbers from `start` up to (but not including) `end`.
+*   **E.g.:** `(range 3 7)` should return `(3 4 5 6)`.
+*   **Learning Goal:** Practice building a list in reverse using an accumulator and then reversing it once at the end for the correct order, a common tail-recursive list-building pattern.
+
+**Exercise 45: Deep List Equality**
+*   **Description:** Write a function `deep-equal?` that takes two deep lists and returns `#t` if they have the same structure and the same atomic values, and `#f` otherwise.
+*   **E.g.:** `(deep-equal? '(1 (2)) '(1 (2)))` → `#t`. `(deep-equal? '(1 (2)) '(1 2))` → `#f`.
+*   **Learning Goal:** Handle complex, multi-branching recursion cleanly. While making this fully tail-recursive is very advanced (requires trampolining), focus first on a correct and clean standard recursion.
+
+---
+
+#### **Module 10: Algebraic Data Types in Scheme**
+
+A very common exam theme is to provide a data structure definition from a typed language (like Haskell) and ask you to implement it and its operations in Scheme. This module gives you a systematic way to do this using "tagged lists."
+
+**Exercise 46: Constructors and Predicates for Binary Trees**
+*   **Description:** Let's model a binary tree where `(Leaf 5)` is `' (Leaf 5)` and `(Node (Leaf 1) (Leaf 2))` is `'(Node (Leaf 1) (Leaf 2))`. Write the constructor functions `make-leaf`, `make-node` and the predicate functions `leaf?` and `node?`.
+*   **Learning Goal:** Establish the core pattern for representing an Algebraic Data Type (ADT) in Scheme.
+
+**Exercise 47: `map-tree`**
+*   **Description:** Using the tree structure from the previous exercise, write a `map-tree` function that takes a procedure and a tree, and applies the procedure to every value in the leaves, returning a new tree with the same structure.
+*   **Learning Goal:** Apply the recursive processing pattern to your custom ADT.
+
+**Exercise 48: `fold-tree`**
+*   **Description:** Write a `fold-tree` function. It should take two procedures (one for handling leaves, one for combining results from nodes) and a tree, and reduce the tree to a single value.
+*   **Learning Goal:** Implement the catamorphism for a tree structure, the most powerful way to process it.
+
+**Exercise 49: `fmap` for the `Expr` ADT (from PPL2024.02.02)**
+*   **Description:** Model the `Expr` data type: `data Expr a = Var a | Val Int | Op (Expr a) (Expr a)`. Write constructors `make-var`, `make-val`, `make-op` and a `fmap` function that applies a procedure only to the `Var` constructors.
+*   **E.g.:** `(fmap (lambda (x) (string-append x "!")) '(Op (Var "a") (Val 5)))` should return `'(Op (Var "a!") (Val 5))`.
+*   **Learning Goal:** Directly practice a key part of an exam question, focusing on functorial application over a custom ADT.
+
+**Exercise 50: `>>=` for the `Expr` ADT (from PPL2024.02.02)**
+*   **Description:** For the same `Expr` ADT, implement the monadic bind operator `>>=`. The `>>=` function takes an `Expr` and a procedure `f`. It applies `f` to the value inside a `Var`, and `f` is expected to return a new `Expr`. It should recursively apply itself to `Op`s and do nothing to `Val`s.
+*   **Learning Goal:** Tackle the most difficult part of the exam problem, requiring a deep understanding of how Monads transform structures.
+
+---
+
+#### **Module 11: Advanced Macros**
+
+This module focuses on writing macros that are recursive or manage complex syntactic transformations, targeting the most difficult macro-based exam questions.
+
+**Exercise 51: `let**` (from PPL2023.07.03)**
+*   **Description:** Implement the `let**` macro. It behaves like `let*`, but if a variable is given without a value, it inherits the value of the most recently defined variable. A `def:` keyword provides a default for the very first variable.
+*   **Learning Goal:** Write a recursive macro that peels off one binding at a time and passes the "state" (the last value) into the expansion of the rest of the macro.
+
+**Exercise 52: `block-then` (from PPL2022.01.21)**
+*   **Description:** Implement the `block-then` macro. `(block <expr1> ... then <expr2> ... where (v <- a b) ...)` should expand to create two lexical scopes. The first bindings `a` are for `<expr1>`, and the second bindings `b` are for `<expr2>`.
+*   **Learning Goal:** Practice writing a macro that manages multiple, distinct code blocks and binding scopes.
+
+**Exercise 53: An `unless` Macro**
+*   **Description:** Write a macro `unless` that is the inverse of `if`. `(unless <condition> <then-expr> <else-expr>)` should execute `<then-expr>` if the condition is false, and `<else-expr>` if it is true.
+*   **Learning Goal:** A straightforward but essential exercise to solidify your understanding of how macros re-arrange syntax into existing forms (`if`).
+
+**Exercise 54: A `while` Loop Macro**
+*   **Description:** Implement a traditional `while` loop as a macro. `(while <condition> <body> ...)` should execute the body as long as the condition remains true.
+*   **Learning Goal:** Practice creating a common imperative construct by expanding it into a recursive function (using a named `let`).
+
+**Exercise 55: `define-dispatcher` (from PPL2022.07.06)**
+*   **Description:** Implement the `define-dispatcher` macro. This macro should automatically generate the dispatcher `lambda` for an object, taking a list of method names and an optional parent object.
+*   **Learning Goal:** This is a "macro-generating" macro. It requires manipulating lists of symbols within the macro to generate a complex `case` statement, representing the peak of macro difficulty seen in the exams.
+
+---
+
+#### **Module 12: Fusing Concepts - Capstone Problems**
+
+This final module contains problems that require you to combine multiple advanced topics (state, continuations, ADTs, macros) to arrive at a solution.
+
+**Exercise 56: `For` Loop with `continue` (from PPL2024.01.11)**
+*   **Description:** Extend the `For` loop macro from Exercise 40 to support both `break` and `continue`.
+*   **Learning Goal:** This is the ultimate continuation challenge. It requires using *two* nested `call/cc` calls: an outer one for `break` (exiting the whole loop) and an inner one for `continue` (skipping to the next iteration).
+
+**Exercise 57: `delay-master` and `linked-delay` (from PPL2024.09.03)**
+*   **Description:** Implement the "master promise" construct. `(delay-master <expr>)` creates a master promise. `(linked-delay <master> <expr>)` creates a linked promise. When the master is forced, it evaluates itself and then forces all of its linked promises.
+*   **Learning Goal:** Fuse the `delay/force` pattern with advanced state management. The master promise object must now contain a list of its children.
+
+**Exercise 58: Coroutines with Continuations**
+*   **Description:** Write a `make-coroutine` function that takes a procedure (the coroutine body). The body can call a `(yield)` function to pass control back to the caller. When the coroutine is called again, it resumes from where it left off.
+*   **Learning Goal:** A deep exploration of `call/cc`. This requires swapping continuations to pass control back and forth, a powerful technique for cooperative multitasking.
+
+**Exercise 59: `contains-length?` (from PPL2025.07.03)**
+*   **Description:** Write a function that takes a deep list and checks if every list and sub-list (at every level) contains its own length as an element.
+*   **Learning Goal:** A tricky recursive problem that combines structural validation with element validation. It serves as a great review of deep recursion, predicates, and higher-order functions like `andmap` or a custom `all?`.
+
+**Exercise 60: Transactional Bank Account**
+*   **Description:** Extend the `make-account` object from Exercise 22. Add a `(acc 'transaction <proc>)` method. The procedure `<proc>` will be executed with a special `abort` function. If `abort` is ever called, all state changes made during the transaction are rolled back.
+*   **Learning Goal:** Fuse state management (objects) with continuations. The `transaction` method will use `call/cc` to save the state (the continuation). If `abort` is called, it simply invokes that continuation to discard the recent changes.
