@@ -485,3 +485,112 @@ This final module contains problems inspired by multiple exam questions, requiri
 *   **Description:** (Ambitious) Write `async` and `await` macros. `(async <expr>)` should start running `<expr>` and return a promise immediately. `(await <promise>)` should pause the current function's execution (using continuations) until the promise has a value, then resume. This requires a global task scheduler (a list of pending continuations).
 *   **Learning Goal:** This is a capstone problem that requires fusing almost every advanced concept: macros for syntax, continuations for control flow, and state management for the task queue and promise values. Solving this demonstrates true mastery of the language's advanced features.
 
+### **Part 5: Mastery, Synthesis, and Design (Exercises 81-100)**
+
+This final part of the course moves beyond implementing given specifications. You will be asked to design data structures, create mini-languages, simulate complex computational models, and combine state, control, and metaprogramming to solve capstone problems. Successfully completing this section signifies a deep and flexible understanding of the language.
+
+---
+
+<h4>Module 17: Metaprogramming and Language Design</h4>
+
+This module focuses on using Racket to build abstractions so powerful they feel like new language features. You will be designing and implementing your own data structures and control flow mechanisms from scratch.
+
+**Exercise 81: File System ADT**
+*   **Description:** Design and implement a data structure for a simple file system tree. A `Directory` should have a name and a list of contents (other directories or files). A `File` should have a name and content (e.g., a string). Write constructors and a `find-file` function that takes a path (e.g., `'(/ "docs" "report.txt")`) and returns the file's content or `#f`.
+*   **Learning Goal:** Design a non-trivial, nested ADT and write a complex recursive search function for it.
+
+**Exercise 82: A `match` Macro**
+*   **Description:** Implement a `match` macro that works on your custom ADTs (and lists). It should take a value and a series of clauses. Each clause has a pattern and a body. The macro should expand to code that finds the first matching pattern, binds variables from the pattern, and executes the body.
+*   **E.g.:** `(match my-tree ((Leaf v) (displayln v)) ((Node l r) (do-something-with l r)))`.
+*   **Learning Goal:** The pinnacle of ADT processing. This requires writing a macro that de-structures data, a core feature of languages like Haskell and Rust.
+
+**Exercise 83: An ADT Definition Macro**
+*   **Description:** Write a macro `define-adt` that automatically generates constructors, predicates, and selectors for a tagged-list ADT.
+*   **E.g.:** `(define-adt Point (x y))` should automatically define `make-point`, `point?`, `point-x`, and `point-y`.
+*   **Learning Goal:** Practice metaprogramming at a higher level, writing macros that write code for you, reducing boilerplate and errors.
+
+**Exercise 84: `define-dispatcher` with Inheritance**
+*   **Description:** Extend the `define-dispatcher` macro (from PPL2022.07.06 and Exercise 55) to support single inheritance. If a message is not understood by the child object, it should be delegated to the parent object.
+*   **Learning Goal:** Evolve a complex macro to handle delegation, forcing you to manage the flow of control and arguments between different object contexts.
+
+**Exercise 85: A Path-Finding DSL**
+*   **Description:** Write an interpreter for a simple path-finding Domain-Specific Language. An expression like `'((start 0 0) (move right 3) (move down 2))` should be evaluated by a function `(run-path <expr>)` to return the final coordinates, e.g., `'(3 . 2)`.
+*   **Learning Goal:** Design and implement a small, specialized language, which involves parsing, maintaining state (the current position), and evaluation.
+
+---
+
+<h4>Module 18: Advanced Control Flow & Concurrency Simulation</h4>
+
+This module pushes the boundaries of control flow, using continuations to implement features normally found in operating systems or concurrent languages.
+
+**Exercise 86: Simulating an Erlang-style Agent**
+*   **Description:** Write a function `spawn-agent` that takes an initial state and a `receive-loop` procedure. It should return a "PID" (which can just be the agent's message-handling procedure). Write a corresponding `send` function `(send pid msg)`. The agent should process messages from its "mailbox" (a list) one at a time, updating its state.
+*   **Learning Goal:** Model the fundamental actor model of concurrency, managing state and a message queue in a single-threaded environment.
+
+**Exercise 87: Agent with Error Handling (`try/catch`)**
+*   **Description:** Implement a `try/catch` macro. `(try <body> (catch (ex) <handler>))` should execute `<body>`. If `(throw ex)` is called within the body, control should immediately jump to the handler. This can be implemented with `call/cc` to create an "error continuation."
+*   **Learning Goal:** Use continuations to implement a robust error-handling mechanism, a key feature of modern languages.
+
+**Exercise 88: A Generator with `yield`**
+*   **Description:** Using `call/cc`, write a `make-generator` function. It takes a procedure `g` that can call a `yield` function to return a value. When the generator is invoked again, it resumes execution immediately after the `yield`.
+*   **Learning Goal:** Master the concept of swapping continuations to create coroutines, a powerful control structure for cooperative multitasking.
+
+**Exercise 89: Backtracking for a Sudoku Solver**
+*   **Description:** Write a simple Sudoku solver. Use continuations to handle backtracking. When you make a choice for a cell, save the continuation `(call/cc (lambda (k) ...))`. If you reach a dead end (a cell with no valid numbers), invoke the saved continuation to jump back to the last choice point and try the next number.
+*   **Learning Goal:** A very practical and powerful application of continuations for search problems, avoiding the complexity of managing an explicit state stack.
+
+**Exercise 90: Simulating `async/await` with a Scheduler**
+*   **Description:** This is a major challenge. Implement `async`, `await`, and a `run-event-loop!` function. `(async <expr>)` returns a promise. `(await <promise>)` pauses the current task (saving its continuation) if the promise is not ready. `run-event-loop!` runs tasks from a queue until all are complete.
+*   **Learning Goal:** A capstone control-flow problem that simulates a core feature of modern asynchronous programming, requiring a deep understanding of state, callbacks, and continuations.
+
+---
+
+<h4>Module 19: Performance, Optimization, and Idiomatic Code</h4>
+
+This final set of "pure" programming exercises focuses on writing code that is not just correct, but also efficient and elegant, using the full power of the language's idioms.
+
+**Exercise 91: Continuation-Passing Style (CPS) `map-tree`**
+*   **Description:** Convert a standard `map-tree` function to be fully tail-recursive by rewriting it in Continuation-Passing Style. The function should take an extra argument: a continuation `k` (a procedure) to which it passes its result instead of returning it directly.
+*   **Learning Goal:** Understand and apply CPS transformation, a fundamental technique in compiler design and advanced functional programming for achieving tail-call optimization in all cases.
+
+**Exercise 92: A One-Pass List Analysis**
+*   **Description:** Write a *single-pass*, *tail-recursive* function `analyze-list` that takes a list of numbers and returns a list containing: the sum, the product, the maximum element, and the minimum element.
+*   **Learning Goal:** An exercise in extreme efficiency, forcing you to manage multiple accumulators in a single tail-recursive loop.
+
+**Exercise 93: Memoizing a Path-Counting Function**
+*   **Description:** On a grid, you can only move right or down. Write a function `count-paths(m, n)` that counts the number of paths from the top-left corner to the bottom-right corner of an m-by-n grid. Then, write a memoized version of this function to handle large grids efficiently.
+*   **Learning Goal:** Apply memoization to a function with multiple arguments and a recursive structure that involves many overlapping subproblems.
+
+**Exercise 94: A List Zipper**
+*   **Description:** Implement a list "zipper". `(make-zipper lst)` should return a representation of the list with a "cursor" at the beginning. It should support operations like `(zipper-forward z)`, `(zipper-backward z)`, `(zipper-get z)`, and `(zipper-set z val)` which performs a non-destructive update. The zipper is typically represented as two lists: elements before the cursor (reversed) and elements after the cursor.
+*   **Learning Goal:** Implement a powerful functional data structure that allows for efficient, localized updates without copying the entire structure.
+
+**Exercise 95: Generic `fold` for any ADT**
+*   **Description:** Write a macro or procedure `define-fold` that takes an ADT definition (like in Exercise 83) and automatically generates a `fold` function for it. The fold would take a procedure for each constructor in the ADT.
+*   **Learning Goal:** A highly abstract problem that combines metaprogramming with the core functional pattern of the catamorphism.
+
+---
+
+<h4>Module 20: Grand Synthesis - Final Capstone Projects</h4>
+
+These are final, open-ended problems that require you to bring together everything you've learned to create a small but complete system.
+
+**Exercise 96: A Complete `For` Macro**
+*   **Description:** Synthesize your work from previous exercises to create a final, robust `For` macro. It should support `(For i from start to end do ...)` and include fully functional `#:break` and `#:continue` keyword clauses, implemented hygienically using continuations.
+*   **Learning Goal:** Integrate advanced macros with advanced control flow (`call/cc`) to create a polished, feature-complete new language construct.
+
+**Exercise 97: A Transactional, Memoized Cache Object**
+*   **Description:** Create a caching object. It must have methods for `get`, `set`, and `transaction`. `get` should be memoized. `transaction` takes a procedure; if that procedure calls a provided `abort` function, all `set` operations performed within the transaction must be rolled back.
+*   **Learning Goal:** A fusion of state management, memoization, and continuations for transactional control.
+
+**Exercise 98: A "Proxy" System (from PPL2021.01.20)**
+*   **Description:** Implement a system that simulates the Erlang proxy problem. Create a central "registry" agent. Other "client" agents can register themselves with a symbolic `Name`. A client can then send a message to another client via the registry by using its `Name` instead of its "PID," and the registry will forward the message.
+*   **Learning Goal:** Model a core concurrency pattern (service discovery/indirection) using stateful agents and message-passing simulation.
+
+**Exercise 99: A Reversible Computation**
+*   **Description:** Write a function that takes a starting value and a list of procedures `(f1 f2 f3 ...)`. It should return an object that responds to `forward` and `backward`. `forward` applies the next function in the list. `backward` undoes the last function application. This is only possible for invertible functions (e.g., `+1` and `-1`), but your goal is to manage the state and the history.
+*   **Learning Goal:** An exercise in managing a "history" of states and functions, pushing your object-oriented design and state management skills.
+
+**Exercise 100: The Final Challenge: A Scheme Interpreter in Scheme (Self-Interpreter)**
+*   **Description:** Write a function `my-eval` that takes a quoted Scheme expression and evaluates it. Your interpreter only needs to support a subset of the language: numbers, symbols (variable lookup), `quote`, `if`, `lambda`, and function application. You will also need to implement `my-apply` and manage an environment.
+*   **Learning Goal:** This is the quintessential exercise in understanding a programming language. By implementing `eval` and `apply`, you are re-creating the heart of the language itself, demonstrating a complete and total mastery of its fundamental principles of evaluation, scope, and closures.
