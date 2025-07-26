@@ -367,3 +367,121 @@ This final module contains problems that require you to combine multiple advance
 **Exercise 60: Transactional Bank Account**
 *   **Description:** Extend the `make-account` object from Exercise 22. Add a `(acc 'transaction <proc>)` method. The procedure `<proc>` will be executed with a special `abort` function. If `abort` is ever called, all state changes made during the transaction are rolled back.
 *   **Learning Goal:** Fuse state management (objects) with continuations. The `transaction` method will use `call/cc` to save the state (the continuation). If `abort` is called, it simply invokes that continuation to discard the recent changes.
+
+### **Part 4: Elegance, Performance, and Advanced Synthesis (Exercises 61-80)**
+
+In this section, you'll move beyond just finding a working solution. You will learn to write more idiomatic, efficient, and elegant Scheme code. The exercises will challenge you to see problems from multiple perspectives and choose the best tools for the job, culminating in complex problems that mirror the hardest exam questions.
+
+---
+
+<h4>Module 13: Advanced List and Sequence Manipulation</h4>
+
+This module focuses on sophisticated sequence operations, often requiring clever use of multiple pointers, recursion on multiple lists simultaneously, and generating infinite data structures.
+
+**Exercise 61: Interleave Two Lists**
+*   **Description:** Write a function `interleave` that takes two lists and returns a new list containing elements from each, alternating. If one list is longer, its remaining elements should be appended at the end.
+*   **E.g.:** `(interleave '(a b c) '(1 2 3 4 5))` should return `'(a 1 b 2 c 3 4 5)`.
+*   **Learning Goal:** Practice recursion over multiple lists at once.
+
+**Exercise 62: `zip`**
+*   **Description:** Implement the `zip` function. It takes two lists and returns a list of pairs, where the i-th pair contains the i-th element from each list. The output list's length is determined by the shorter of the two input lists.
+*   **E.g.:** `(zip '(a b c) '(1 2))` should return `'((a 1) (b 2))`.
+*   **Learning Goal:** A classic multi-list recursion that is fundamental for many other operations.
+
+**Exercise 63: Group Consecutive Elements**
+*   **Description:** Write a function `group-consecutive` that takes a list and groups identical consecutive elements into sub-lists.
+*   **E.g.:** `(group-consecutive '(1 1 2 3 3 3 1 1))` should return `'((1 1) (2) (3 3 3) (1 1))`.
+*   **Learning Goal:** A more complex recursive pattern that requires "looking ahead" or passing state about the previous element.
+
+**Exercise 64: Infinite Streams**
+*   **Description:** A stream can be represented as a pair of `(head . (lambda () tail))`. Implement a stream of all natural numbers `nats`. Also write `stream-take n s` which returns a list of the first `n` elements of stream `s`, and `stream-map f s` which applies a function to every element of a stream.
+*   **Learning Goal:** Master the core concept of lazy infinite data structures using `lambda` to delay computation, a powerful alternative to `delay`/`force`.
+
+**Exercise 65: The Sieve of Eratosthenes (Stream-based)**
+*   **Description:** Using the stream framework from the previous exercise, implement the Sieve of Eratosthenes to generate an infinite stream of prime numbers. Start with the stream of naturals from 2. The head is a prime. The tail is recursively filtered by removing all multiples of the head.
+*   **Learning Goal:** A beautiful and classic algorithm that perfectly demonstrates the power of lazy evaluation and stream processing.
+
+---
+
+<h4>Module 14: Simulating Paradigms and Interpreters</h4>
+
+This module challenges you to use Scheme's flexibility to simulate features from other languages or even to write small interpreters, a common theme in advanced programming language courses.
+
+**Exercise 66: Representing Haskell's `Maybe`**
+*   **Description:** Model Haskell's `Maybe a = Just a | Nothing`. Write constructors `just` and `nothing`, and implement `fmap` and `>>=` for this data type. In Scheme, `nothing` can be represented as a unique value or symbol.
+*   **Learning Goal:** Practice modeling ADTs and implementing Functor and Monad instances for them, a skill directly tested in the exams.
+
+**Exercise 67: A Simple Expression Evaluator**
+*   **Description:** Write a function `eval` that evaluates a simple arithmetic expression represented as a list. The expression can contain numbers and the symbols `+` and `*`.
+*   **E.g.:** `(eval '(+ 3 (* 2 5)))` should return `13`.
+*   **Learning Goal:** Write a basic interpreter, which is the heart of what many exam problems are asking you to do (evaluate a custom data structure).
+
+**Exercise 68: Evaluator with an Environment**
+*   **Description:** Extend the previous evaluator to support variables. The `eval` function should now take an expression and an environment (e.g., a list of `(var . val)` pairs). Add a `let` construct to the expression language.
+*   **E.g.:** `(eval '(let ((x 5)) (+ x 3)) '())` should return `8`.
+*   **Learning Goal:** Understand how environments are passed through a recursive evaluation to manage variable scope, a core concept of language implementation.
+
+**Exercise 69: Simulating Prolog-style Unification**
+*   **Description:** Write a simple `unify` function. It takes two terms (which can be variables represented as symbols starting with `?`, or constants) and a substitution (an environment). It returns a new substitution if they can be unified, or `#f` if not.
+*   **E.g.:** `(unify '?x 5 '())` should return `'((?x . 5))`. `(unify '(?x . ?y) '(5 . 6) '())` should return `'((?y . 6) (?x . 5))`.
+*   **Learning Goal:** A challenging but rewarding exercise in symbolic manipulation and recursive data structure matching.
+
+**Exercise 70: A Finite State Automaton Simulator**
+*   **Description:** Write a function `sim-fsa` that takes an FSA description (states, alphabet, transition function, start state, final states) and an input string (list of characters). It should return `#t` if the FSA accepts the string, `#f` otherwise.
+*   **Learning Goal:** Model a computational process. This is the sequential precursor to the concurrent Erlang FSA problems and tests your ability to manage state transitions.
+
+---
+
+<h4>Module 15: Advanced Macro Patterns and Hygiene</h4>
+
+This module dives deeper into macro creation, exploring how to generate unique identifiers to avoid accidental variable capture (hygiene) and how to write more readable, powerful macros.
+
+**Exercise 71: An `aif` (Anaphoric If) Macro**
+*   **Description:** Implement an anaphoric `if`. `(aif <condition> <then-expr> <else-expr>)` should be like `if`, but if `<condition>` evaluates to a true value, that value is bound to the special variable `it` within the `<then-expr>`.
+*   **E.g.:** `(aif (member 'b '(a b c)) (cons 'found it))` should return `'(found b c)`.
+*   **Learning Goal:** Learn to use `let` within a macro expansion to create local bindings.
+
+**Exercise 72: A `let-when` Macro**
+*   **Description:** Write a `let-when` macro that combines `let` and `when`. `(let-when ((var val) ...) <condition> <body> ...)` should create the bindings and only execute the body if the condition is true.
+*   **Learning Goal:** Practice combining multiple forms (`let`, `when`) in a single macro for conciseness.
+
+**Exercise 73: A `for` Loop with `#:break-if`**
+*   **Description:** Write a `for` loop macro that iterates through a sequence. It should support a keyword argument for early exit.
+*   **E.g.:** `(for ((i '(1 2 -5 4))) #:break-if (negative? i) (displayln i))` should print `1` and `2`, then exit.
+*   **Learning Goal:** Practice parsing keyword arguments within a macro, a more advanced syntactic pattern.
+
+**Exercise 74: A Hygienic `while` Macro**
+*   **Description:** Re-implement the `while` loop from Exercise 54. This time, ensure that any internal variables you use in the expansion (e.g., the name of the recursive function) are hygienic, meaning they won't clash with user variables. Use `(generate-temporaries ...)` for this.
+*   **Learning Goal:** Understand the concept of macro hygiene and how to explicitly manage it when `syntax-rules` isn't enough.
+
+**Exercise 75: A Simple `class` Macro**
+*   **Description:** Write a `class` macro that simplifies the object-oriented pattern from Module 5. `(class <name> ((field val) ...) (method (args) body) ...)` should expand into a constructor function `(make-<name> ...)` and a dispatcher.
+*   **Learning Goal:** An ambitious macro that synthesizes state, closures, and complex syntactic transformation into a single, high-level construct.
+
+---
+
+<h4>Module 16: Mashup and Synthesis Capstone Problems</h4>
+
+This final module contains problems inspired by multiple exam questions, requiring you to combine ideas from different domains into a single, cohesive solution.
+
+**Exercise 76: Continuable `fold`**
+*   **Description:** Write a function `continuable-fold` that takes a procedure, a base, and a list. The procedure it takes receives three arguments: the current element, the accumulated value, and a `break` continuation. If `break` is called with a value, the fold stops immediately and returns that value.
+*   **Learning Goal:** Fuse higher-order functions (`fold`) with continuations (`call/cc`).
+
+**Exercise 77: Stateful Tree Traversal**
+*   **Description:** Create a tree "walker" object. `(make-walker <tree>)` should return a dispatcher. `(walker 'next)` should return the next element in a depth-first traversal. `(walker 'reset)` should restart the traversal. The walker must not destroy or copy the original tree.
+*   **E.g.:** `(define w (make-walker '(1 (2) (3))))` `(w 'next)` → `1`, `(w 'next)` → `2`, `(w 'next)` → `3`.
+*   **Learning Goal:** A difficult problem combining ADTs, state management, and potentially continuations to manage the traversal state without a simple list.
+
+**Exercise 78: Macro-Generated `let-cond+` (from PPL2024.07.03)**
+*   **Description:** Implement the `let-cond+` macro. It works like `let-cond`, but it executes the `then-part` for *all* conditions that are true, in sequence. The final result is the value of the last `then-part` executed.
+*   **Learning Goal:** A subtle variation on a previous problem that tests your attention to detail in macro expansion and state flow (managing the "result" variable).
+
+**Exercise 79: A Vector-Based Matrix with Method-like Access**
+*   **Description:** Create a `make-matrix` function that returns a procedure. This procedure acts as an object for a matrix implemented with a single, flat vector (`#(c11 c12 c21 c22)`). It should respond to messages like `'(ref row col)` and `'(set! row col val)`.
+*   **Learning Goal:** Combine vector arithmetic (calculating index as `row * cols + col`) with the dispatcher/object pattern.
+
+**Exercise 80: The Ultimate Challenge: A Macro for a Simple `async/await`**
+*   **Description:** (Ambitious) Write `async` and `await` macros. `(async <expr>)` should start running `<expr>` and return a promise immediately. `(await <promise>)` should pause the current function's execution (using continuations) until the promise has a value, then resume. This requires a global task scheduler (a list of pending continuations).
+*   **Learning Goal:** This is a capstone problem that requires fusing almost every advanced concept: macros for syntax, continuations for control flow, and state management for the task queue and promise values. Solving this demonstrates true mastery of the language's advanced features.
+
