@@ -22,3 +22,5 @@ toList (Deque front back) = front ++ reverse back
 instance Foldable Deque where
   -- To fold a Deque, just convert it to a list and use the list's foldr.
   foldr f z deq = foldr f z (toList deq)
+
+-- TODO: check this exercise again, because it was very difficult!
