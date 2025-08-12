@@ -2,9 +2,9 @@
 Exercise 27: A Foldable Deque (from 2022.07.06) Consider a Deque a implemented with two lists: data Deque a = Deque [a] [a] where the first list is the front and the second is the reversed back. Make this an instance of Foldable. A helper function toList :: Deque a -> [a] would make this much easier.
 -}
 
+{- WRONG
 data Deque a = Deque [a] [a]
 
-{- WRONG
 toList :: Deque a -> [a]
 toList lst = concatMap toList lst
 
