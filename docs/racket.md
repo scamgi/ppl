@@ -313,3 +313,26 @@ Lists in Racket are linked lists built from **pairs** (cons cells).
 (eq? "hello" "hello")    ; #f (different string objects)
 ```
 
+## Mutability
+
+Racket values are immutable by default (e.g., lists, symbols), but Racket provides mutable data structures and variables.
+
+### Mutable Variables
+`set!` is used to mutate the value of a variable defined with `define` or bound in a `let`.
+
+```racket
+(define x 10)
+(set! x 20) ; x is now 20
+```
+
+
+### Mutable Vectors
+Vectors are fixed-length mutable arrays.
+
+```racket
+(define v (vector 1 2 3))
+(vector-set! v 0 99) ; v is now #(99 2 3)
+```
+
+
+
