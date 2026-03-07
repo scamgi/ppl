@@ -58,6 +58,7 @@ Common syntactic forms:
 -   `let`, `let*`, `letrec`: Local bindings.
 -   `cond`, `and`, `or`: Conditional control flow.
 -   `begin`: Sequences multiple expressions.
+-   `set!`: Mutates an existing variable.
 
 ```racket
 ;; 'if' is a syntactic form because it only evaluates one branch
@@ -66,6 +67,9 @@ Common syntactic forms:
 ;; 'define' binds a value or defines a function
 (define x 10)
 (define (square x) (* x x))
+
+;; 'set!' changes the value of an existing variable
+(set! x 20) ; x is now 20
 
 ;; 'begin' evaluates expressions in order and returns the last result
 (begin
