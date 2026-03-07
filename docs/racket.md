@@ -23,6 +23,7 @@ Examples:
 (+ 1 2)         ; A list representing a function call
 '(1 2 3)        ; A list of numbers (quoted data)
 (list 1 2 3)    ; A function call constructing a list
+(= x (+ y (* 3 x ) z )) ; A nested S-expression
 ```
 
 ## Basic Syntax
