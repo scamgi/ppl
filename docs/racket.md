@@ -169,3 +169,31 @@ Racket uses **lexical scoping** (static scoping) by default. This means a functi
 (define (add x y)
   (+ x y))
 ```
+
+## Pairs and Lists
+
+Lists in Racket are linked lists built from **pairs** (cons cells).
+
+-   `cons`: Constructs a pair.
+-   `car` (or `first`): Gets the first element (head).
+-   `cdr` (or `rest`): Gets the second element (tail).
+-   `list`: Constructs a list.
+-   `null?` (or `empty?`): Checks for an empty list.
+
+```racket
+;; Pairs
+(cons 1 2)        ; '(1 . 2) - A dotted pair
+(car (cons 1 2))  ; 1
+(cdr (cons 1 2))  ; 2
+
+;; Lists (proper lists end with null)
+(cons 1 (cons 2 '())) ; '(1 2)
+(list 1 2 3)          ; '(1 2 3)
+
+;; List Operations
+(first '(1 2 3))      ; 1
+(rest '(1 2 3))       ; '(2 3)
+(car '(1 2 3))        ; 1
+(cdr '(1 2 3))        ; '(2 3)
+(null? '())           ; #t
+```
