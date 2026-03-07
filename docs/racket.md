@@ -334,5 +334,29 @@ Vectors are fixed-length mutable arrays.
 (vector-set! v 0 99) ; v is now #(99 2 3)
 ```
 
+## Call by Object Sharing
+
+Racket uses **call by object sharing** (also known as "call by sharing").
+
+-   Arguments are passed by value, but that value is a reference to the object.
+-   If you **mutate** a mutable object (like a vector) passed as an argument, the change is visible outside the function.
+-   If you **reassign** a variable (using `set!`) inside the function, it only changes the local binding and does *not* affect the variable passed by the caller.
+
+```racket
+(define (modify-vector v)
+  (vector-set! v 0 99)) ; Mutation: Visible outside
+
+(define (reassign-vector v)
+  (set! v (vector 4 5 6))) ; Reassignment: Local only
+
+(define vec (vector 1 2 3))
+
+(modify-vector vec)
+vec ; #(99 2 3) - The object was modified
+
+(reassign-vector vec)
+vec ; #(99 2 3) - The variable 'vec' still points to the same object
+```
+
 
 
