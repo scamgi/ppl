@@ -51,6 +51,14 @@ In Erlang, the `=` operator is a pattern match, not an assignment.
 - **Local Call**: `my_func(Arg1)` (within the same module).
 - **Remote Call**: `module:function(Arg1)` (calling a function in another module).
 
+### Built-in Functions (BIFs)
+Common functions built into the Erlang runtime.
+- **Lists**: `length(List)`, `hd(List)`, `tl(List)`.
+- **Tuples**: `element(N, Tuple)`, `setelement(N, Tuple, Value)`, `tuple_size(Tuple)`.
+- **Conversions**: `atom_to_list(Atom)`, `list_to_integer(List)`, `integer_to_list(Int)`.
+- **Process**: `self()` (current PID), `spawn(Fun)`.
+- **Time**: `date()`, `time()`, `now()`.
+
 ### Function Definition
 ```erlang
 % Function definition
