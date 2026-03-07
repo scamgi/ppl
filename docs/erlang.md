@@ -17,6 +17,22 @@ Tuples are compound data types used to store a fixed number of items. They are e
   - `{ok, "File content"}` (a tagged tuple, common in Erlang for result handling)
   - `{person, "Alice", 30}` (grouping related data)
 
+### Lists
+Lists are ordered collections of terms. They are enclosed in square brackets `[]`.
+- **Syntax**: `[Element1, Element2, ...]`
+- **Examples**:
+  - `[1, 2, 3]` (a list of integers)
+  - `["Hello", "World"]` (a list of strings)
+  - `[{person, "Alice"}, {person, "Bob"}]` (a list of tuples)
+- **Head and Tail**: Lists can be split into a head (first element) and a tail (rest of the list) using the `|` operator: `[Head | Tail]`.
+
+### Comprehensions
+List comprehensions provide a concise way to create lists based on existing lists.
+- **Syntax**: `[Expression || Generator, Filter, ...]`
+- **Examples**:
+  - `[X*2 || X <- [1, 2, 3]]` produces `[2, 4, 6]`.
+  - `[X || X <- [1, 2, 3, 4], X rem 2 == 0]` produces `[2, 4]` (filters even numbers).
+
 ### Function Definition
 ```erlang
 % Function definition
