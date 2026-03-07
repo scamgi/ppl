@@ -275,16 +275,6 @@ Racket optimizes **tail calls**. If the last expression in a function is a call 
       (* n (factorial-bad (- n 1))))) ; Multiplication happens AFTER the recursive call
 ```
 
-## Basic Syntax
-
-### Function Definition
-
-```racket
-;; Function definition
-(define (add x y)
-  (+ x y))
-```
-
 ## Pairs and Lists
 
 Lists in Racket are linked lists built from **pairs** (cons cells).
