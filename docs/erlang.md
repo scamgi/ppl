@@ -7,7 +7,7 @@
 
 ### Variables and Atoms
 - **Variables** must start with an uppercase letter or an underscore (e.g., `X`, `MyVar`, `_Unused`).
-- **Atoms** must start with a lowercase letter (e.g., `ok`, `error`, `my_atom`).
+- **Atoms** are literal constants where their name is their value (similar to symbols in Ruby or enums in C). They must start with a lowercase letter (e.g., `ok`, `error`, `my_atom`) or be enclosed in single quotes (e.g., `'My Atom'`).
 
 ### Function Definition
 ```erlang
