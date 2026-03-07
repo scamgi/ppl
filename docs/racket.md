@@ -41,14 +41,39 @@ Lambdas are anonymous functions.
   (+ (* x x) (* y y)))
 ```
 
-## Local Bindings (let)
+## Local Bindings (let, let*, letrec)
 
-`let` allows you to bind variables locally within a specific scope. The variables are only valid within the body of the `let` expression.
+### let
+`let` allows you to bind variables locally. Bindings are evaluated in parallel (variables in the same `let` cannot refer to each other).
 
 ```racket
 (let ([x 2]
       [y 3])
   (+ x y)) ; Returns 5
+```
+
+### let*
+`let*` evaluates bindings sequentially. Later bindings can use earlier ones.
+
+```racket
+(let* ([x 2]
+       [y (+ x 1)])
+  (+ x y)) ; Returns 5
+```
+
+### letrec
+`letrec` allows recursive bindings (bindings can refer to each other), useful for defining recursive local functions.
+
+```racket
+(letrec ([is-even? (lambda (n)
+                     (if (zero? n)
+                         #t
+                         (is-odd? (- n 1))))]
+         [is-odd? (lambda (n)
+                    (if (zero? n)
+                        #f
+                        (is-even? (- n 1))))])
+  (is-even? 10)) ; Returns #t
 ```
 
 ## Scoping
