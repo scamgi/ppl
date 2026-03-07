@@ -213,6 +213,7 @@ Lists in Racket are linked lists built from **pairs** (cons cells).
 -   `null?` (or `empty?`): Checks for an empty list.
 -   `member`: Checks if an element is in a list (returns the tail starting with the element or #f).
 -   `apply`: Applies a function to a list of arguments.
+-   `for-each`: Applies a function to each element of a list (for side effects).
 
 ```racket
 ;; Pairs
@@ -235,4 +236,7 @@ Lists in Racket are linked lists built from **pairs** (cons cells).
 
 ;; Apply
 (apply + '(1 2 3))    ; 6 (equivalent to (+ 1 2 3))
+
+;; for-each
+(for-each (lambda (x) (display x)) '(1 2 3)) ; Prints 123
 ```
