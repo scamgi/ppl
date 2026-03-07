@@ -191,6 +191,24 @@ Lambdas are anonymous functions.
         (loop (- n 1)))))
 ```
 
+### while (macro)
+
+Racket does not have a built-in `while` loop like C or Java, but it can be defined as a macro or simulated with recursion (like `named let`).
+
+```racket
+;; Defining a simple while macro
+(define-syntax-rule (while condition body ...)
+  (let loop ()
+    (when condition
+      body ...
+      (loop))))
+
+(define x 5)
+(while (> x 0)
+  (display x)
+  (set! x (- x 1))) ; Prints 54321
+```
+
 ## Scoping
 
 Racket uses **lexical scoping** (static scoping) by default. This means a function's environment is determined by where it is defined, not where it is called.
