@@ -147,6 +147,18 @@ Lambdas are anonymous functions.
   (is-even? 10)) ; Returns #t
 ```
 
+### Named let
+`let` can be given a name to create a recursive loop.
+
+```racket
+(let loop ([n 10])
+  (if (zero? n)
+      'done
+      (begin
+        (display n)
+        (loop (- n 1)))))
+```
+
 ## Scoping
 
 Racket uses **lexical scoping** (static scoping) by default. This means a function's environment is determined by where it is defined, not where it is called.
