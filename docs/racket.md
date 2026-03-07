@@ -32,4 +32,20 @@ Examples:
 (= x (+ y (* 3 x ) z )) ; A nested S-expression
 ```
 
+## Lambdas
+
+Lambdas are anonymous functions.
+
+```racket
+(lambda (x y) ; this is a comment
+  (+ (* x x) (* y y)))
+```
+
 ## Basic Syntax
+
+### Function Definition
+```racket
+;; Function definition
+(define (add x y)
+  (+ x y))
+```
