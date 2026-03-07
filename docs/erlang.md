@@ -68,3 +68,16 @@ Common functions built into the Erlang runtime.
 add(X, Y) ->
     X + Y.
 ```
+
+### Guarded Function Clauses
+```erlang
+% Return the maximum of X and Y
+max(X, Y) when X > Y -> X;
+max(_, Y) -> Y.
+
+% Factorial with guards
+fact(N) when N > 0 ->
+    N * fact(N - 1);
+fact(0) ->
+    1.
+```
