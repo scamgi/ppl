@@ -204,6 +204,34 @@ Racket uses **lexical scoping** (static scoping) by default. This means a functi
   (f)) ; Returns 10 (uses global x from definition site)
 ```
 
+## Closures
+
+A **closure** is a function that "closes over" the environment in which it was defined. It remembers the values of variables visible at definition time, even if those variables are no longer in scope when the function is called.
+
+```racket
+(define (make-adder x)
+  (lambda (y) (+ x y))) ; Returns a closure that remembers 'x'
+
+(define add5 (make-adder 5))
+(add5 10) ; 15
+
+;; Stateful Closure (using set!)
+(define (iter-vector vec)
+  (let ([cur 0]
+        [top (vector-length vec)])
+    (lambda ()
+      (if (= cur top)
+          '<<end>>
+          (let ([v (vector-ref vec cur)])
+            (set! cur (+ cur 1))
+            v)))))
+
+(define i (iter-vector #(1 2)))
+(i) ; 1
+(i) ; 2
+(i) ; '<<end>>
+```
+
 ## Tail Recursion
 
 Racket optimizes **tail calls**. If the last expression in a function is a call to another function (or itself), the current stack frame is reused. This prevents stack overflow in recursive loops.
