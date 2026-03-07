@@ -301,6 +301,34 @@ Lists in Racket are linked lists built from **pairs** (cons cells).
 (for-each (lambda (x) (display x)) '(1 2 3)) ; Prints 123
 ```
 
+## Higher-Order Functions
+
+Higher-order functions take other functions as arguments or return them. They are essential for processing lists.
+
+-   `map`: Applies a function to each element of a list and returns a new list of results.
+-   `filter`: Returns a new list containing only elements for which the predicate returns true.
+-   `foldl` (fold left): Accumulates a result by applying a function from left to right.
+-   `foldr` (fold right): Accumulates a result by applying a function from right to left.
+
+```racket
+;; Map
+(map (lambda (x) (* x x)) '(1 2 3)) ; '(1 4 9)
+(map + '(1 2) '(10 20))             ; '(11 22) - map can take multiple lists
+
+;; Filter
+(filter even? '(1 2 3 4)) ; '(2 4)
+
+;; Foldl (Left to Right)
+;; Accumulates: (f current acc)
+(foldl cons '() '(1 2 3))   ; '(3 2 1) - Reverses the list
+(foldl - 0 '(10 2))         ; -8  because (- 2 (- 10 0)) -> (- 2 10) -> -8
+
+;; Foldr (Right to Left)
+;; Accumulates: (f current acc)
+(foldr cons '() '(1 2 3))   ; '(1 2 3) - Preserves order
+(foldr - 0 '(10 2))         ; 8   because (- 10 (- 2 0)) -> (- 10 2) -> 8
+```
+
 ## Vectors
 
 -   `vector`: Constructs a vector.
