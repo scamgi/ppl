@@ -84,3 +84,54 @@ fact(N) when N > 0 ->
 fact(0) ->
     1.
 ```
+
+## Concurrency
+
+### Processes
+Erlang processes are lightweight and isolated.
+- **Spawn**: `Pid = spawn(Module, Function, Args)` creates a new process and returns its Process ID (Pid).
+- **Self**: `self()` returns the Pid of the current process.
+
+### Message Passing
+Communication between processes is done via asynchronous message passing.
+- **Send**: `Pid ! Message` sends a message to the process with `Pid`. The operation is non-blocking.
+- **Receive**: Wait for messages matching a pattern.
+```erlang
+receive
+    {sender, Msg} ->
+        io:format("Received: ~p~n", [Msg]);
+    stop ->
+        io:format("Stopping...~n")
+end.
+```
+
+### Example: Ping Pong
+```erlang
+-module(ping_pong).
+-export([start/0, ping/0, pong/0]).
+
+start() ->
+    PongPid = spawn(ping_pong, pong, []),
+    spawn(ping_pong, ping, [3, PongPid]).
+
+ping(0, PongPid) ->
+    PongPid ! finished,
+    io:format("Ping finished~n");
+ping(N, PongPid) ->
+    PongPid ! {ping, self()},
+    receive
+        pong ->
+            io:format("Ping received pong~n")
+    end,
+    ping(N - 1, PongPid).
+
+pong() ->
+    receive
+        finished ->
+            io:format("Pong finished~n");
+        {ping, PingPid} ->
+            io:format("Pong received ping~n"),
+            PingPid ! pong,
+            pong()
+    end.
+```
