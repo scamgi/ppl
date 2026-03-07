@@ -51,14 +51,15 @@ Racket is **homoiconic**, meaning "same representation". The code structure (S-e
 Syntactic forms (or special forms) are expressions that have special evaluation rules, unlike function calls where all arguments are evaluated first.
 
 Common syntactic forms:
--   `define`: Binds a value to a name.
--   `lambda`: Creates a procedure.
--   `if`: Conditionally evaluates expressions (short-circuiting).
--   `quote` (or `'`): Prevents evaluation of its argument.
--   `let`, `let*`, `letrec`: Local bindings.
--   `cond`, `and`, `or`: Conditional control flow.
--   `begin`: Sequences multiple expressions.
--   `set!`: Mutates an existing variable.
+
+- `define`: Binds a value to a name.
+- `lambda`: Creates a procedure.
+- `if`: Conditionally evaluates expressions (short-circuiting).
+- `quote` (or `'`): Prevents evaluation of its argument.
+- `let`, `let*`, `letrec`: Local bindings.
+- `cond`, `and`, `or`: Conditional control flow.
+- `begin`: Sequences multiple expressions.
+- `set!`: Mutates an existing variable.
 
 ```racket
 ;; 'if' is a syntactic form because it only evaluates one branch
@@ -114,10 +115,10 @@ Common syntactic forms:
 
 Quoting prevents evaluation of an expression, treating it as data (symbols or lists) instead of code.
 
--   `quote` or `'`: Standard quoting.
--   `quasiquote` or `` ` ``: Allows unquoting parts of the expression.
--   `unquote` or `,`: Evaluates the expression inside a quasiquote.
--   `unquote-splicing` or `,@`: Evaluates and splices the list into the surrounding list.
+- `quote` or `'`: Standard quoting.
+- `quasiquote` or `` ` ``: Allows unquoting parts of the expression.
+- `unquote` or `,`: Evaluates the expression inside a quasiquote.
+- `unquote-splicing` or `,@`: Evaluates and splices the list into the surrounding list.
 
 ```racket
 ;; Quote
@@ -144,9 +145,10 @@ Lambdas are anonymous functions.
   (+ (* x x) (* y y)))
 ```
 
-## Local Bindings (let, let*, letrec)
+## Local Bindings (let, let\*, letrec)
 
 ### let
+
 `let` allows you to bind variables locally. Bindings are evaluated in parallel (variables in the same `let` cannot refer to each other).
 
 ```racket
@@ -155,7 +157,8 @@ Lambdas are anonymous functions.
   (+ x y)) ; Returns 5
 ```
 
-### let*
+### let\*
+
 `let*` evaluates bindings sequentially. Later bindings can use earlier ones.
 
 ```racket
@@ -165,6 +168,7 @@ Lambdas are anonymous functions.
 ```
 
 ### letrec
+
 `letrec` allows recursive bindings (bindings can refer to each other), useful for defining recursive local functions.
 
 ```racket
@@ -180,6 +184,7 @@ Lambdas are anonymous functions.
 ```
 
 ### Named let
+
 `let` can be given a name to create a recursive loop.
 
 ```racket
@@ -284,14 +289,14 @@ Racket optimizes **tail calls**. If the last expression in a function is a call 
 
 Lists in Racket are linked lists built from **pairs** (cons cells).
 
--   `cons`: Constructs a pair.
--   `car` (or `first`): Gets the first element (head).
--   `cdr` (or `rest`): Gets the second element (tail).
--   `list`: Constructs a list.
--   `null?` (or `empty?`): Checks for an empty list.
--   `member`: Checks if an element is in a list (returns the tail starting with the element or #f).
--   `apply`: Applies a function to a list of arguments.
--   `for-each`: Applies a function to each element of a list (for side effects).
+- `cons`: Constructs a pair.
+- `car` (or `first`): Gets the first element (head).
+- `cdr` (or `rest`): Gets the second element (tail).
+- `list`: Constructs a list.
+- `null?` (or `empty?`): Checks for an empty list.
+- `member`: Checks if an element is in a list (returns the tail starting with the element or #f).
+- `apply`: Applies a function to a list of arguments.
+- `for-each`: Applies a function to each element of a list (for side effects).
 
 ```racket
 ;; Pairs
@@ -323,10 +328,10 @@ Lists in Racket are linked lists built from **pairs** (cons cells).
 
 Higher-order functions take other functions as arguments or return them. They are essential for processing lists.
 
--   `map`: Applies a function to each element of a list and returns a new list of results.
--   `filter`: Returns a new list containing only elements for which the predicate returns true.
--   `foldl` (fold left): Accumulates a result by applying a function from left to right.
--   `foldr` (fold right): Accumulates a result by applying a function from right to left.
+- `map`: Applies a function to each element of a list and returns a new list of results.
+- `filter`: Returns a new list containing only elements for which the predicate returns true.
+- `foldl` (fold left): Accumulates a result by applying a function from left to right.
+- `foldr` (fold right): Accumulates a result by applying a function from right to left.
 
 ```racket
 ;; Map
@@ -349,10 +354,10 @@ Higher-order functions take other functions as arguments or return them. They ar
 
 ## Vectors
 
--   `vector`: Constructs a vector.
--   `vector-ref`: Gets an element.
--   `vector-set!`: Sets an element.
--   `vector-for-each`: Applies a function to each element of a vector (for side effects).
+- `vector`: Constructs a vector.
+- `vector-ref`: Gets an element.
+- `vector-set!`: Sets an element.
+- `vector-for-each`: Applies a function to each element of a vector (for side effects).
 
 ```racket
 (define v (vector 10 20 30))
@@ -364,9 +369,9 @@ Higher-order functions take other functions as arguments or return them. They ar
 
 ## Equivalence Predicates
 
--   `eq?`: Pointer equality. Checks if two objects refer to the exact same memory location. Fast, but fails for numbers or strings that look the same but are stored differently.
--   `eqv?`: Operational equivalence. Like `eq?`, but reliably compares numbers and characters.
--   `equal?`: Structural equality. Recursively checks if the contents of lists, vectors, strings, etc., are the same.
+- `eq?`: Pointer equality. Checks if two objects refer to the exact same memory location. Fast, but fails for numbers or strings that look the same but are stored differently.
+- `eqv?`: Operational equivalence. Like `eq?`, but reliably compares numbers and characters.
+- `equal?`: Structural equality. Recursively checks if the contents of lists, vectors, strings, etc., are the same.
 
 ```racket
 ;; eq? - Identity
@@ -392,6 +397,7 @@ Higher-order functions take other functions as arguments or return them. They ar
 Racket values are immutable by default (e.g., lists, symbols), but Racket provides mutable data structures and variables.
 
 ### Mutable Variables
+
 `set!` is used to mutate the value of a variable defined with `define` or bound in a `let`.
 
 ```racket
@@ -399,8 +405,8 @@ Racket values are immutable by default (e.g., lists, symbols), but Racket provid
 (set! x 20) ; x is now 20
 ```
 
-
 ### Mutable Vectors
+
 Vectors are fixed-length mutable arrays.
 
 ```racket
@@ -412,9 +418,9 @@ Vectors are fixed-length mutable arrays.
 
 Racket uses **call by object sharing** (also known as "call by sharing").
 
--   Arguments are passed by value, but that value is a reference to the object.
--   If you **mutate** a mutable object (like a vector) passed as an argument, the change is visible outside the function.
--   If you **reassign** a variable (using `set!`) inside the function, it only changes the local binding and does *not* affect the variable passed by the caller.
+- Arguments are passed by value, but that value is a reference to the object.
+- If you **mutate** a mutable object (like a vector) passed as an argument, the change is visible outside the function.
+- If you **reassign** a variable (using `set!`) inside the function, it only changes the local binding and does _not_ affect the variable passed by the caller.
 
 ```racket
 (define (modify-vector v)
@@ -437,9 +443,10 @@ vec ; #(99 2 3) - The variable 'vec' still points to the same object
 Structs create new data types with named fields.
 
 Defining a struct `(struct name (field1 ...))` automatically creates:
--   A constructor: `name`
--   A type predicate: `name?`
--   Field accessors: `name-field1`, `name-field2`...
+
+- A constructor: `name`
+- A type predicate: `name?`
+- Field accessors: `name-field1`, `name-field2`...
 
 By default, structs are immutable. Use `#:mutable` to allow field modification. This creates mutators like `set-name-field!`.
 
@@ -475,8 +482,9 @@ Racket has a powerful macro system. `define-syntax-rule` is the simplest way to 
 ### Hygiene
 
 Racket macros are **hygienic** by default. This means:
-1.  Variables introduced by the macro do not capture variables from the surrounding code.
-2.  Variables used in the macro definition refer to the bindings present where the macro was defined, not where it is used.
+
+1. Variables introduced by the macro do not capture variables from the surrounding code.
+2. Variables used in the macro definition refer to the bindings present where the macro was defined, not where it is used.
 
 This prevents accidental name collisions.
 
@@ -516,5 +524,24 @@ Calling the captured continuation with a value immediately aborts the current co
      #f))) ; Not found
 ```
 
+## Exception Handling (to check in the future because I don't know if this is important)
 
+Racket handles exceptions using `with-handlers`, which catches exceptions raised within its body.
 
+- `raise`: Raises any value as an exception.
+- `error`: Raises an error with a message.
+- `with-handlers`: Defines handlers for specific exception types.
+
+```racket
+(define (safe-divide x y)
+  (with-handlers ([exn:fail:contract:divide-by-zero?
+                   (lambda (e) 'error-division-by-zero)])
+    (/ x y)))
+
+(safe-divide 10 2) ; 5
+(safe-divide 10 0) ; 'error-division-by-zero
+
+;; Raising custom exceptions
+(with-handlers ([string? (lambda (s) (string-append "Caught: " s))])
+  (raise "Something went wrong!")) ; "Caught: Something went wrong!"
+```
