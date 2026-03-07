@@ -458,5 +458,21 @@ By default, structs are immutable. Use `#:mutable` to allow field modification. 
 (point-y p)         ; 20
 ```
 
+## Macros
+
+Macros allow you to extend the language syntax. They are functions that run at **compile time**, transforming code (S-expressions) into other code before the program runs.
+
+Racket has a powerful macro system. `define-syntax-rule` is the simplest way to define a macro using pattern matching.
+
+```racket
+;; Define a macro 'infix' that allows (1 + 2) syntax
+(define-syntax-rule (infix a op b)
+  (op a b))
+
+(infix 1 + 2) ; Becomes (+ 1 2) -> 3
+```
+
+Macros are hygienic by default, meaning variables introduced by the macro don't accidentally capture variables from the surrounding code.
+
 
 
