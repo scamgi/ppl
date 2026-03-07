@@ -32,6 +32,16 @@ Examples:
 (= x (+ y (* 3 x ) z )) ; A nested S-expression
 ```
 
+## Homoiconicity
+
+Racket is **homoiconic**, meaning "same representation". The code structure (S-expressions) is the same as the data structure. This allows code to be treated as data and manipulated programmatically (macros).
+
+```racket
+;; Code as Data
+(define code-snippet '(+ 1 2)) ; A list of data: (+ 1 2)
+(eval code-snippet)            ; Evaluated as code: 3
+```
+
 ## Lambdas
 
 Lambdas are anonymous functions.
