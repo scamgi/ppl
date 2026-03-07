@@ -40,6 +40,10 @@ Racket is **homoiconic**, meaning "same representation". The code structure (S-e
 ;; Code as Data
 (define code-snippet '(+ 1 2)) ; A list of data: (+ 1 2)
 (eval code-snippet)            ; Evaluated as code: 3
+
+;; Modifying Code
+(define modified-snippet (cons '* (cdr code-snippet))) ; Change + to *
+(eval modified-snippet)        ; Evaluated as code: (* 1 2) -> 2
 ```
 
 ## Lambdas
