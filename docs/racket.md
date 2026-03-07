@@ -358,5 +358,31 @@ vec ; #(99 2 3) - The object was modified
 vec ; #(99 2 3) - The variable 'vec' still points to the same object
 ```
 
+## Structs
+
+Structs create new data types with named fields.
+
+Defining a struct `(struct name (field1 ...))` automatically creates:
+-   A constructor: `name`
+-   A type predicate: `name?`
+-   Field accessors: `name-field1`, `name-field2`...
+
+By default, structs are immutable. Use `#:mutable` to allow field modification. This creates mutators like `set-name-field!`.
+
+```racket
+;; Define a mutable struct
+(struct point (x y) #:mutable)
+
+(define p (point 3 4))
+(point? p)          ; #t
+(point-x p)         ; 3
+
+;; Mutate fields
+(set-point-x! p 10)
+(point-x p)         ; 10
+(set-point-y! p 20)
+(point-y p)         ; 20
+```
+
 
 
