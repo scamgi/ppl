@@ -179,6 +179,8 @@ Lists in Racket are linked lists built from **pairs** (cons cells).
 -   `cdr` (or `rest`): Gets the second element (tail).
 -   `list`: Constructs a list.
 -   `null?` (or `empty?`): Checks for an empty list.
+-   `member`: Checks if an element is in a list (returns the tail starting with the element or #f).
+-   `apply`: Applies a function to a list of arguments.
 
 ```racket
 ;; Pairs
@@ -196,4 +198,9 @@ Lists in Racket are linked lists built from **pairs** (cons cells).
 (car '(1 2 3))        ; 1
 (cdr '(1 2 3))        ; '(2 3)
 (null? '())           ; #t
+(member 2 '(1 2 3))   ; '(2 3)
+(member 4 '(1 2 3))   ; #f
+
+;; Apply
+(apply + '(1 2 3))    ; 6 (equivalent to (+ 1 2 3))
 ```
