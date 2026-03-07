@@ -1,5 +1,8 @@
 # Erlang Cheatsheet
 
+* Table of Contents
+{:toc}
+
 ## Basic Syntax
 
 ### Function Definition
