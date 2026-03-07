@@ -7,7 +7,7 @@
 
 S-expressions (symbolic expressions) are the fundamental building blocks of Racket code and data. An S-expression is either an **atom** or a **list**.
 
-*   **Atoms**: Basic values like numbers, symbols, booleans, and strings.
+*   **Atoms**: Basic values like numbers, symbols, booleans, strings, characters, and keywords.
 *   **Lists**: A sequence of S-expressions enclosed in parentheses `( ... )`.
 
 Examples:
@@ -18,6 +18,13 @@ Examples:
 'foo            ; Symbol
 #t              ; Boolean
 "hello"         ; String
+#\c             ; Character
+#:keyword       ; Keyword
+
+;; Data Structures
+'(1 . 2)        ; Pair (dotted pair)
+#(1 2 3)        ; Vector
+
 
 ;; Lists
 (+ 1 2)         ; A list representing a function call
