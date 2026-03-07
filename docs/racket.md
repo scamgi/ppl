@@ -492,5 +492,29 @@ This prevents accidental name collisions.
   (list tmp other)) ; '(6 5)
 ```
 
+## Continuations
+
+A **continuation** represents the "rest of the computation" at a specific point in time. Racket allows you to capture the current continuation as a first-class function using `call-with-current-continuation` (or `call/cc`).
+
+Calling the captured continuation with a value immediately aborts the current computation and returns that value to the point where `call/cc` was called.
+
+```racket
+;; Early exit using call/cc
+(call/cc
+ (lambda (k)
+   (+ 1 2 (k 10) 3))) ; Returns 10 immediately, ignoring (+ 1 2 ... 3)
+
+;; Using call/cc for nonlocal return
+(define (search lst target)
+  (call/cc
+   (lambda (return)
+     (for-each (lambda (x)
+                 (if (equal? x target)
+                     (return x) ; Found: return immediately
+                     (display "checking...")))
+               lst)
+     #f))) ; Not found
+```
+
 
 
