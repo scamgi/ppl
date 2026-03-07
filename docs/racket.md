@@ -46,6 +46,26 @@ Racket is **homoiconic**, meaning "same representation". The code structure (S-e
 (eval modified-snippet)        ; Evaluated as code: (* 1 2) -> 2
 ```
 
+## Syntactic Forms
+
+Syntactic forms (or special forms) are expressions that have special evaluation rules, unlike function calls where all arguments are evaluated first.
+
+Common syntactic forms:
+-   `define`: Binds a value to a name.
+-   `lambda`: Creates a procedure.
+-   `if`: Conditionally evaluates expressions (short-circuiting).
+-   `quote` (or `'`): Prevents evaluation of its argument.
+-   `let`, `let*`, `letrec`: Local bindings.
+-   `cond`, `and`, `or`: Conditional control flow.
+
+```racket
+;; 'if' is a syntactic form because it only evaluates one branch
+(if #t 1 (/ 1 0)) ; Returns 1, division by zero is never evaluated
+
+;; 'define' binds a value, it doesn't return it like a function
+(define x 10)
+```
+
 ## Lambdas
 
 Lambdas are anonymous functions.
