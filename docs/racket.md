@@ -172,6 +172,26 @@ Racket uses **lexical scoping** (static scoping) by default. This means a functi
   (f)) ; Returns 10 (uses global x from definition site)
 ```
 
+## Tail Recursion
+
+Racket optimizes **tail calls**. If the last expression in a function is a call to another function (or itself), the current stack frame is reused. This prevents stack overflow in recursive loops.
+
+```racket
+;; Tail Recursive Factorial
+(define (factorial n acc)
+  (if (zero? n)
+      acc
+      (factorial (- n 1) (* n acc)))) ; Tail call: result is directly returned
+
+(factorial 5 1) ; 120
+
+;; Non-Tail Recursive Factorial (causes stack buildup)
+(define (factorial-bad n)
+  (if (zero? n)
+      1
+      (* n (factorial-bad (- n 1))))) ; Multiplication happens AFTER the recursive call
+```
+
 ## Basic Syntax
 
 ### Function Definition
