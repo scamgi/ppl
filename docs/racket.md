@@ -240,3 +240,18 @@ Lists in Racket are linked lists built from **pairs** (cons cells).
 ;; for-each
 (for-each (lambda (x) (display x)) '(1 2 3)) ; Prints 123
 ```
+
+## Vectors
+
+-   `vector`: Constructs a vector.
+-   `vector-ref`: Gets an element.
+-   `vector-set!`: Sets an element.
+-   `vector-for-each`: Applies a function to each element of a vector (for side effects).
+
+```racket
+(define v (vector 10 20 30))
+(vector-ref v 1) ; 20
+
+;; vector-for-each
+(vector-for-each (lambda (x) (display x)) #(1 2 3)) ; Prints 123
+```
