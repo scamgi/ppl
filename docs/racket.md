@@ -63,8 +63,9 @@ Common syntactic forms:
 ;; 'if' is a syntactic form because it only evaluates one branch
 (if #t 1 (/ 1 0)) ; Returns 1, division by zero is never evaluated
 
-;; 'define' binds a value, it doesn't return it like a function
+;; 'define' binds a value or defines a function
 (define x 10)
+(define (square x) (* x x))
 
 ;; 'begin' evaluates expressions in order and returns the last result
 (begin
