@@ -41,6 +41,16 @@ Lambdas are anonymous functions.
   (+ (* x x) (* y y)))
 ```
 
+## Local Bindings (let)
+
+`let` allows you to bind variables locally within a specific scope. The variables are only valid within the body of the `let` expression.
+
+```racket
+(let ([x 2]
+      [y 3])
+  (+ x y)) ; Returns 5
+```
+
 ## Basic Syntax
 
 ### Function Definition
