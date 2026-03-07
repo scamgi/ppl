@@ -258,20 +258,26 @@ Lists in Racket are linked lists built from **pairs** (cons cells).
 
 ## Equivalence Predicates
 
--   `eq?`: Checks if two objects are the same object in memory (pointer equality). Fast but specific.
--   `eqv?`: Checks if two objects are normally regarded as the same object. Same as `eq?` for objects, but handles numbers and characters better (e.g. `(eqv? 1.0 1.0)` is true, `(eq? 1.0 1.0)` might be false).
--   `equal?`: Checks if two objects have the same structure and contents (recursive comparison).
+-   `eq?`: Pointer equality. Checks if two objects refer to the exact same memory location. Fast, but fails for numbers or strings that look the same but are stored differently.
+-   `eqv?`: Operational equivalence. Like `eq?`, but reliably compares numbers and characters.
+-   `equal?`: Structural equality. Recursively checks if the contents of lists, vectors, strings, etc., are the same.
 
 ```racket
-(define l1 '(1 2 3))
-(define l2 '(1 2 3))
+;; eq? - Identity
+(define x '(1 2))
+(define y '(1 2))
 
-(eq? l1 l2)    ; #f (different lists in memory)
-(eq? l1 l1)    ; #t
-(equal? l1 l2) ; #t (same content)
+(eq? x y)       ; #f (different lists in memory)
+(eq? x x)       ; #t
+(eq? 'a 'a)     ; #t (symbols are unique/interned)
 
-(eq? 2 2)      ; #t
-(eqv? 2 2)     ; #t
-(equal? 2 2)   ; #t
+;; eqv? - Numbers and Characters
+(eq? 1.0 1.0)   ; #f (unspecified behavior for some numbers)
+(eqv? 1.0 1.0)  ; #t (reliably compares numbers)
+
+;; equal? - Structure
+(equal? x y)             ; #t (content is the same)
+(equal? "hello" "hello") ; #t (strings with same chars)
+(eq? "hello" "hello")    ; #f (different string objects)
 ```
 
