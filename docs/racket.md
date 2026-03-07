@@ -472,7 +472,25 @@ Racket has a powerful macro system. `define-syntax-rule` is the simplest way to 
 (infix 1 + 2) ; Becomes (+ 1 2) -> 3
 ```
 
-Macros are hygienic by default, meaning variables introduced by the macro don't accidentally capture variables from the surrounding code.
+### Hygiene
+
+Racket macros are **hygienic** by default. This means:
+1.  Variables introduced by the macro do not capture variables from the surrounding code.
+2.  Variables used in the macro definition refer to the bindings present where the macro was defined, not where it is used.
+
+This prevents accidental name collisions.
+
+```racket
+(define-syntax-rule (swap x y)
+  (let ([tmp x])
+    (set! x y)
+    (set! y tmp)))
+
+(let ([tmp 5]
+      [other 6])
+  (swap tmp other) ; "tmp" inside swap is renamed to avoid collision with "tmp" here
+  (list tmp other)) ; '(6 5)
+```
 
 
 
