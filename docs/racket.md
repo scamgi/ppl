@@ -57,6 +57,7 @@ Common syntactic forms:
 -   `quote` (or `'`): Prevents evaluation of its argument.
 -   `let`, `let*`, `letrec`: Local bindings.
 -   `cond`, `and`, `or`: Conditional control flow.
+-   `begin`: Sequences multiple expressions.
 
 ```racket
 ;; 'if' is a syntactic form because it only evaluates one branch
@@ -64,6 +65,12 @@ Common syntactic forms:
 
 ;; 'define' binds a value, it doesn't return it like a function
 (define x 10)
+
+;; 'begin' evaluates expressions in order and returns the last result
+(begin
+  (display "First\n")
+  (display "Second\n")
+  (+ 1 2)) ; Returns 3
 ```
 
 ## Quoting
