@@ -66,6 +66,31 @@ Common syntactic forms:
 (define x 10)
 ```
 
+## Quoting
+
+Quoting prevents evaluation of an expression, treating it as data (symbols or lists) instead of code.
+
+-   `quote` or `'`: Standard quoting.
+-   `quasiquote` or `` ` ``: Allows unquoting parts of the expression.
+-   `unquote` or `,`: Evaluates the expression inside a quasiquote.
+-   `unquote-splicing` or `,@`: Evaluates and splices the list into the surrounding list.
+
+```racket
+;; Quote
+'(+ 1 2)         ; Evaluates to the list (+ 1 2), not 3
+(quote (+ 1 2))  ; Same as above
+
+;; Quasiquote and Unquote
+(define x 10)
+`(+ x ,x)        ; Evaluates to the list (+ x 10)
+`(+ x ,(+ x 5))  ; Evaluates to the list (+ x 15)
+
+;; Unquote Splicing
+(define lst '(1 2 3))
+`(0 ,@lst 4)     ; Evaluates to (0 1 2 3 4)
+`(0 ,lst 4)      ; Evaluates to (0 (1 2 3) 4)
+```
+
 ## Lambdas
 
 Lambdas are anonymous functions.
