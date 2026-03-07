@@ -255,3 +255,23 @@ Lists in Racket are linked lists built from **pairs** (cons cells).
 ;; vector-for-each
 (vector-for-each (lambda (x) (display x)) #(1 2 3)) ; Prints 123
 ```
+
+## Equivalence Predicates
+
+-   `eq?`: Checks if two objects are the same object in memory (pointer equality). Fast but specific.
+-   `eqv?`: Checks if two objects are normally regarded as the same object. Same as `eq?` for objects, but handles numbers and characters better (e.g. `(eqv? 1.0 1.0)` is true, `(eq? 1.0 1.0)` might be false).
+-   `equal?`: Checks if two objects have the same structure and contents (recursive comparison).
+
+```racket
+(define l1 '(1 2 3))
+(define l2 '(1 2 3))
+
+(eq? l1 l2)    ; #f (different lists in memory)
+(eq? l1 l1)    ; #t
+(equal? l1 l2) ; #t (same content)
+
+(eq? 2 2)      ; #t
+(eqv? 2 2)     ; #t
+(equal? 2 2)   ; #t
+```
+
