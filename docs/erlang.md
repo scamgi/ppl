@@ -33,6 +33,24 @@ List comprehensions provide a concise way to create lists based on existing list
   - `[X*2 || X <- [1, 2, 3]]` produces `[2, 4, 6]`.
   - `[X || X <- [1, 2, 3, 4], X rem 2 == 0]` produces `[2, 4]` (filters even numbers).
 
+### Maps
+Maps are key-value associations enclosed in `#{}`.
+- **Syntax**: `#{Key1 => Value1, Key2 => Value2}`
+- **Updating**: `Map#{Key => NewValue}` adds or updates a key. `Map#{Key := NewValue}` updates an existing key only.
+- **Example**:
+  - `M = #{name => "Alice", age => 30}`
+  - `M#{age := 31}` results in `#{name => "Alice", age => 31}`
+
+### Pattern Matching
+In Erlang, the `=` operator is a pattern match, not an assignment.
+- **Matching**: `{A, B} = {1, 2}` binds `A` to `1` and `B` to `2`.
+- **Assertions**: `{ok, Result} = call()` will succeed if `call()` returns `{ok, ...}` but crash if it returns `{error, ...}`.
+- **Function Heads**: Functions can have multiple clauses matched by pattern.
+
+### Function Calls
+- **Local Call**: `my_func(Arg1)` (within the same module).
+- **Remote Call**: `module:function(Arg1)` (calling a function in another module).
+
 ### Function Definition
 ```erlang
 % Function definition
