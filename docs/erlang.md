@@ -50,6 +50,9 @@ In Erlang, the `=` operator is a pattern match, not an assignment.
 ### Function Calls
 - **Local Call**: `my_func(Arg1)` (within the same module).
 - **Remote Call**: `module:function(Arg1)` (calling a function in another module).
+- **Dynamic Call (`apply`)**: `apply(Module, Function, Args)` calls a function dynamically.
+  - `apply(math, add, [1, 2])` is equivalent to `math:add(1, 2)`.
+  - Useful when the module or function name is determined at runtime.
 
 ### Built-in Functions (BIFs)
 Common functions built into the Erlang runtime.
