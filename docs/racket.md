@@ -78,6 +78,38 @@ Common syntactic forms:
   (+ 1 2)) ; Returns 3
 ```
 
+## Conditionals
+
+### cond
+
+`cond` allows for multi-way branching. It evaluates a series of conditions and executes the body of the first true condition.
+
+```racket
+(define (classify-number n)
+  (cond
+    [(> n 0) 'positive]
+    [(< n 0) 'negative]
+    [else 'zero]))
+
+(classify-number 5)  ; 'positive
+(classify-number -2) ; 'negative
+```
+
+### case
+
+`case` matches a value against a set of specific constants (using `eqv?`). It is useful when comparing a value against multiple options.
+
+```racket
+(define (classify-value v)
+  (case v
+    [(1 2 3) 'small]
+    [(4 5 6) 'medium]
+    [else 'large]))
+
+(classify-value 2) ; 'small
+(classify-value 5) ; 'medium
+```
+
 ## Quoting
 
 Quoting prevents evaluation of an expression, treating it as data (symbols or lists) instead of code.
