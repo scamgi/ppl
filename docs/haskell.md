@@ -36,6 +36,64 @@ add :: Int -> Int -> Int
 add x y = x + y
 ```
 
+### If-Then-Else
+```haskell
+-- if is an expression (always returns a value)
+abs :: Int -> Int
+abs n = if n < 0 then -n else n
+
+-- Can be nested
+signum :: Int -> Int
+signum n = if n < 0 then -1 else if n > 0 then 1 else 0
+
+-- Used inline
+maxPlusOne x y = 1 + (if x > y then x else y)
+```
+
+### Let Expressions
+```haskell
+-- let ... in ... binds local variables within an expression
+cylinderArea :: Float -> Float -> Float
+cylinderArea r h =
+    let sideArea = 2 * pi * r * h
+        topArea = pi * r ^ 2
+    in  sideArea + 2 * topArea
+
+-- Multiple bindings
+quadratic a b c x =
+    let disc = b^2 - 4*a*c
+        twoA = 2*a
+    in  (-b + sqrt disc) / twoA
+
+-- let can be used inline
+result = let x = 5 in x * 2  -- 10
+```
+
+### Where Clauses
+```haskell
+-- where binds local variables after the expression
+cylinderArea' :: Float -> Float -> Float
+cylinderArea' r h = sideArea + 2 * topArea
+    where sideArea = 2 * pi * r * h
+          topArea = pi * r ^ 2
+
+-- where works with guards
+bmiTell :: Float -> Float -> String
+bmiTell weight height
+    | bmi <= 18.5 = "Underweight"
+    | bmi <= 25.0 = "Normal"
+    | bmi <= 30.0 = "Overweight"
+    | otherwise   = "Obese"
+    where bmi = weight / height ^ 2
+
+-- Can define local functions
+describeList :: [a] -> String
+describeList xs = "The list is " ++ what xs
+    where what [] = "empty"
+          what [x] = "a singleton"
+          what xs = "longer"
+```
+
 ## Pattern Matching
 
 Pattern matching allows you to deconstruct data structures and bind variables to their components.
