@@ -256,6 +256,32 @@ receive
 end.
 ```
 
+- **Receive with Timeout (`after`)**: If no message matches within `Time` milliseconds, the `after` clause executes.
+```erlang
+receive
+    {reply, Result} ->
+        {ok, Result}
+after
+    5000 ->  % 5 seconds timeout
+        {error, timeout}
+end.
+
+% Use 'infinity' to wait forever (same as no after clause)
+receive
+    Msg -> handle(Msg)
+after
+    infinity -> ok
+end.
+
+% Use 0 to check mailbox without blocking
+flush_mailbox() ->
+    receive
+        _ -> flush_mailbox()
+    after
+        0 -> ok  % Return immediately if mailbox is empty
+    end.
+```
+
 ### Example: Ping Pong
 ```erlang
 -module(ping_pong).
