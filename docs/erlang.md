@@ -169,6 +169,73 @@ handle_result(Result) ->
     end.
 ```
 
+### Lambdas (Anonymous Functions)
+Anonymous functions are created with the `fun` keyword.
+```erlang
+% Basic lambda
+Add = fun(X, Y) -> X + Y end.
+Add(2, 3).  % Returns 5
+
+% Lambda with multiple clauses
+Sign = fun
+    (X) when X > 0 -> positive;
+    (X) when X < 0 -> negative;
+    (_) -> zero
+end.
+
+% Capturing variables from enclosing scope (closure)
+Multiplier = 3,
+Triple = fun(X) -> X * Multiplier end.
+Triple(4).  % Returns 12
+```
+
+### Higher Order Functions
+Functions that take functions as arguments or return functions.
+
+**Common HOFs from the `lists` module:**
+```erlang
+% map - apply function to each element
+lists:map(fun(X) -> X * 2 end, [1, 2, 3]).  % [2, 4, 6]
+
+% filter - keep elements where predicate is true
+lists:filter(fun(X) -> X > 2 end, [1, 2, 3, 4]).  % [3, 4]
+
+% foldl - reduce from left (Acc = accumulator)
+lists:foldl(fun(X, Acc) -> X + Acc end, 0, [1, 2, 3]).  % 6
+
+% foldr - reduce from right
+lists:foldr(fun(X, Acc) -> X - Acc end, 0, [1, 2, 3]).  % 2
+
+% any - true if predicate holds for any element
+lists:any(fun(X) -> X > 2 end, [1, 2, 3]).  % true
+
+% all - true if predicate holds for all elements
+lists:all(fun(X) -> X > 0 end, [1, 2, 3]).  % true
+
+% foreach - apply function for side effects
+lists:foreach(fun(X) -> io:format("~p~n", [X]) end, [1, 2, 3]).
+```
+
+**Passing named functions:**
+```erlang
+% Use fun Module:Function/Arity to reference a named function
+lists:map(fun math:sqrt/1, [1, 4, 9]).  % [1.0, 2.0, 3.0]
+
+% Local function reference
+double(X) -> X * 2.
+test() -> lists:map(fun double/1, [1, 2, 3]).  % [2, 4, 6]
+```
+
+**Returning functions:**
+```erlang
+% Function that returns a function
+make_adder(N) ->
+    fun(X) -> X + N end.
+
+Add5 = make_adder(5).
+Add5(10).  % Returns 15
+```
+
 ## Concurrency
 
 ### Processes
