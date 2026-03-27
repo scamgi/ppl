@@ -141,6 +141,34 @@ first_is_ok(T) when element(1, T) == ok -> true;
 first_is_ok(_) -> false.
 ```
 
+**`if` expression (guards only, no pattern matching):**
+```erlang
+sign(X) ->
+    if
+        X > 0 -> positive;
+        X < 0 -> negative;
+        true -> zero  % 'true' acts as a catch-all (else)
+    end.
+```
+
+**`case` expression (pattern matching with optional guards):**
+```erlang
+describe(X) ->
+    case X of
+        0 -> zero;
+        N when N > 0 -> positive;
+        _ -> negative
+    end.
+
+% Pattern matching on tuples
+handle_result(Result) ->
+    case Result of
+        {ok, Value} -> {success, Value};
+        {error, Reason} -> {failure, Reason};
+        _ -> unknown
+    end.
+```
+
 ## Concurrency
 
 ### Processes
