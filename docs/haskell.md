@@ -14,6 +14,17 @@ inc :: Integer -> Integer
 "hello" :: [Char]       -- strings are lists of characters
 ```
 
+## Operators
+
+### List Concatenation (++)
+```haskell
+(++) :: [a] -> [a] -> [a]
+
+[1, 2] ++ [3, 4]      -- [1, 2, 3, 4]
+"Hello" ++ " World"   -- "Hello World"
+[] ++ [1, 2]          -- [1, 2]
+```
+
 ## Basic Syntax
 
 ### Function Definition
