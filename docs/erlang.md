@@ -85,6 +85,62 @@ fact(0) ->
     1.
 ```
 
+### Guard Examples
+Guards are expressions that must evaluate to `true` for a clause to be selected.
+
+**Comparison operators:**
+```erlang
+check(X) when X > 0 -> positive;
+check(X) when X < 0 -> negative;
+check(X) when X == 0 -> zero.
+```
+
+**Type test BIFs:**
+```erlang
+describe(X) when is_integer(X) -> integer;
+describe(X) when is_float(X) -> float;
+describe(X) when is_atom(X) -> atom;
+describe(X) when is_list(X) -> list;
+describe(X) when is_tuple(X) -> tuple;
+describe(X) when is_map(X) -> map;
+describe(X) when is_pid(X) -> process_id.
+```
+
+**Combining guards with `,` (and) and `;` (or):**
+```erlang
+% Both conditions must be true (logical AND)
+in_range(X) when X >= 0, X =< 100 -> true;
+in_range(_) -> false.
+
+% Either condition can be true (logical OR)
+is_zero_or_one(X) when X == 0; X == 1 -> true;
+is_zero_or_one(_) -> false.
+```
+
+**Using `andalso` and `orelse`:**
+```erlang
+% Short-circuit evaluation
+safe_div(X, Y) when is_number(X), is_number(Y), Y =/= 0 -> X / Y;
+safe_div(_, _) -> error.
+```
+
+**Common guard BIFs:**
+```erlang
+% Length and size checks
+process(L) when length(L) > 3 -> long_list;
+process(T) when tuple_size(T) == 2 -> pair;
+process(M) when map_size(M) == 0 -> empty_map.
+
+% Arithmetic in guards
+is_even(N) when N rem 2 == 0 -> true;
+is_even(_) -> false.
+
+% Element access
+first_is_ok({ok, _}) -> true;
+first_is_ok(T) when element(1, T) == ok -> true;
+first_is_ok(_) -> false.
+```
+
 ## Concurrency
 
 ### Processes
