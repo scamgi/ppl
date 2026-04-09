@@ -3,6 +3,13 @@
 - Table of Contents
   {:toc}
 
+## REPL
+
+**REPL** stands for **Read-Eval-Print-Loop**. It is an interactive programming environment or shell where a user can type code, and the system immediately evaluates it and prints the result.
+
+- **Scheme:** You can use the REPL to interactively test and evaluate expressions or syntactic forms, such as evaluating `+` and `if` directly at the prompt.
+- **Haskell:** The REPL provides an interactive prompt (often displaying `Prelude>`, which is the standard library). Aside from evaluating expressions, you can use specific REPL commands like `:t` to find out the exact type of a function or expression.
+
 ## Types
 
 ```haskell
@@ -37,6 +44,7 @@ add x y = x + y
 ```
 
 ### If-Then-Else
+
 ```haskell
 -- if is an expression (always returns a value)
 abs :: Int -> Int
@@ -51,6 +59,7 @@ maxPlusOne x y = 1 + (if x > y then x else y)
 ```
 
 ### Let Expressions
+
 ```haskell
 -- let ... in ... binds local variables within an expression
 cylinderArea :: Float -> Float -> Float
@@ -70,6 +79,7 @@ result = let x = 5 in x * 2  -- 10
 ```
 
 ### Where Clauses
+
 ```haskell
 -- where binds local variables after the expression
 cylinderArea' :: Float -> Float -> Float
