@@ -33,6 +33,21 @@ inc :: Integer -> Integer
 [] ++ [1, 2]          -- [1, 2]
 ```
 
+### Dot Operator (`.`)
+
+```haskell
+let addOneAndDouble = (*2) . (+1)
+addOneAndDouble 6 -- (6 + 1) * 2 = 14
+```
+
+### Dollar Operator (`$`)
+
+```haskell
+(10*) 5 + 3 -- will give an error, because haskell operates from left to right
+(10*) (5 + 3) -- this is the first way on how to fix it
+(10*) $ 5 + 3 -- this allows you do drop the parenthesis
+```
+
 ## Basic Syntax
 
 ### Function Definition
